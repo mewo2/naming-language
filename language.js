@@ -1,9 +1,7 @@
 function shuffled(list) {
-    var newlist = [];
-    for (var i = 0; i < list.length; i++) {
-        newlist.push(list[i]);
-    }
-    for (var i = list.length - 1; i > 0; i--) {
+    var newlist = [...list];
+    
+    for (let i = list.length - 1; i > 0; i--) {
         var tmp = newlist[i];
         var j = randrange(i);
         newlist[i] = newlist[j];
@@ -18,7 +16,7 @@ function choose(list, exponent) {
 }
 
 function randrange(lo, hi) {
-    if (hi == undefined) {
+    if (typeof hi === 'undefined') {
         hi = lo;
         lo = 0;
     }
@@ -26,7 +24,10 @@ function randrange(lo, hi) {
 }
 
 function join(list, sep) {
-    if (list.length == 0) return '';
+    if (list.length == 0) {
+        return '';
+    }
+
     sep = sep || '';
     var s = list[0];
     for (var i = 1; i < list.length; i++) {
@@ -41,9 +42,13 @@ function capitalize(word) {
 }
 
 function spell(lang, syll) {
-    if (lang.noortho) return syll;
-    var s = '';
-    for (var i = 0; i < syll.length; i++) {
+    if (lang.noortho) {
+        return syll;
+    }
+
+    let s = '';
+
+    for (let i = 0; i < syll.length; i++) {
         var c = syll[i];
         s += lang.cortho[c] || lang.vortho[c] || defaultOrtho[c] || c;
     }
@@ -70,7 +75,9 @@ function makeSyllable(lang) {
                 break;
             }
         }
-        if (bad) continue;
+        if (bad) {
+            continue;
+        }
         return spell(lang, syll);
     }
 }
@@ -82,7 +89,9 @@ function getMorpheme(lang, key) {
     key = key || '';
     var list = lang.morphemes[key] || [];
     var extras = 10;
-    if (key) extras = 1;
+    if (key) {
+        extras = 1;
+    }
     while (true) {
         var n = randrange(list.length + extras);
         if (list[n]) return list[n];
@@ -94,7 +103,9 @@ function getMorpheme(lang, key) {
                 break;
             }
         }
-        if (bad) continue;
+        if (bad) {
+            continue;
+        }
         list.push(morph);
         lang.morphemes[key] = list;
         return morph;
